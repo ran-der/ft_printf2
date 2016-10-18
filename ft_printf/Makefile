@@ -97,7 +97,7 @@ $(NAME):
 	ranlib $(NAME)
 
 clean:
-	rm -f $(OBJ) $(OBJFT)
+	rm -f *.o
 
 fclean: clean
 	rm -f $(NAME)
