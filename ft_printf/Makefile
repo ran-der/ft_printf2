@@ -13,7 +13,7 @@
 NAME = libftprintf.a
 CC = gcc
 CFLAG = -c -Wall -Werror -Wextra
-SRC =	libft/ft_memcmp.c \
+SRCFT =	libft/ft_memcmp.c \
 		libft/ft_putstr_fd.c \
 		libft/ft_strlcat.c \
 		libft/ft_strstr.c \
@@ -73,24 +73,31 @@ SRC =	libft/ft_memcmp.c \
 		libft/ft_lstadd.c \
 		libft/ft_lstiter.c \
 		libft/ft_lstmap.c \
-		ft_get_conv.c \
-		ft_write_conv \
+
+SRC =	ft_get_conv.c \
+		ft_write_conv.c \
 		ft_printf.c \
-		ft_redirect.c \
 		flag_tests.c \
 		ft_tools.c \
+		nbr_tools.c \
+		cvt_txt.c \
+		cvt_snbr.c \
+		cvt_unbr.c \
+
+OBJFT = $(SRCFT:.c=.o)
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME):
+	@$(CC) $(CFLAG) $(SRCFT)
 	$(CC) $(CFLAG) $(SRC)
-	ar rc $(NAME) $(OBJ)
+	ar rc $(NAME) $(OBJ) $(OBJFT)
 	ranlib $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJFT)
 
 fclean: clean
 	rm -f $(NAME)

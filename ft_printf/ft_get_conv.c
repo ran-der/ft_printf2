@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int			ft_get_flags(char *format, t_conv *conv, int i)
+static int		ft_get_flags(char *format, t_conv *conv, int i)
 {
 	while (ft_isvalid_flag(format[i++]))
 	{
@@ -32,7 +32,7 @@ int			ft_get_flags(char *format, t_conv *conv, int i)
 	return (i);
 }
 
-int			ft_get_mod(char *format, t_conv *conv, int i)
+static int		ft_get_mod(char *format, t_conv *conv, int i)
 {
 	if (format[i] == 'l' || format[i] == 'h')
 	{
@@ -48,7 +48,7 @@ int			ft_get_mod(char *format, t_conv *conv, int i)
 }
 
 
-int			ft_get_type2(t_conv *conv, char t)
+static int		ft_get_type2(t_conv *conv, char t)
 {
 	if (t == 'x')
 		conv->type = x;
@@ -61,7 +61,7 @@ int			ft_get_type2(t_conv *conv, char t)
 	return (1);
 }
 
-int			ft_get_type(t_conv *conv, char t)
+static int		ft_get_type(t_conv *conv, char t)
 {
 	if (t == 's')
 		conv->type = s;
@@ -97,7 +97,7 @@ int			ft_get_type(t_conv *conv, char t)
 ** 4: modifier was found
 */
 
-int			ft_get_conv(char *format, t_conv *conversion, int i,\
+int				ft_get_conv(char *format, t_conv *conversion, int i,\
 						int indicator)
 {
 	if (indicator < 1 && ft_isvalid_flag(format[i]) &&\

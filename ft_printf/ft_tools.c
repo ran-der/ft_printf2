@@ -12,7 +12,18 @@
 
 #include "ft_printf.h"
 
-char		*ft_dstrjoin(char const *s1, char const *s2)
+int			ft_check_tp(int y, int x)
+{
+	if (x == 1 || x == 13 || ((!x || x == 12) && y > 2 && y < 5))
+		return (0);
+	if ((!x || x == 12) && y < 3 && y > 4)
+		return (1);
+	if (y < 6 && x > 2 && x < 6)
+		return (2);
+	return (3);
+}
+
+char		*ft_dstrjoin(char *s1, char *s2)
 {
 	char	*new;
 
@@ -23,14 +34,14 @@ char		*ft_dstrjoin(char const *s1, char const *s2)
 	if ((new = (char*)malloc(sizeof(char) * \
 					(ft_strlen(s1) + ft_strlen(s2) + 1))) == NULL)
 		return (NULL);
-	new = ft_strcpy(new, s1);
-	new = ft_strcat(new, s2);
-	ft_strdel(s1);
-	ft_strdel(s2);
+	new = ft_strcpy(new, (const char*)s1);
+	new = ft_strcat(new, (const char*)s2);
+	ft_strdel(&s1);
+	ft_strdel(&s2);
 	return (new);
 }
 
-char		*ft_dstrnjoin(char const *s1, char const *s2, size_t n)
+char		*ft_dstrnjoin(char *s1, char *s2, size_t n)
 {
 	char	*new;
 
@@ -45,8 +56,8 @@ char		*ft_dstrnjoin(char const *s1, char const *s2, size_t n)
 	if ((new = (char*)malloc(sizeof(char) * (ft_strlen(s1) +\
 						n + 1))) == NULL)
 		return (NULL);
-	new = ft_strcpy(new, s1);
-	new = ft_strncat(new, s2, n);
-	ft_strdel(s1);
+	new = ft_strcpy(new, (const char*)s1);
+	new = ft_strncat(new, (const char*)s2, n);
+	ft_strdel(&s1);
 	return (new);
 }

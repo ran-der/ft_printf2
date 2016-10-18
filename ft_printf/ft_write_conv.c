@@ -12,68 +12,57 @@
 
 #include "ft_printf.h"
 
-char		*ft_padding(char *str, char *res, t_conv *conv)
+static char		*add_space(t_conv c, char *res, int len)
 {
+	char		*new;
 	int			i;
-	int			len;
 
+	if ((new = (char*)malloc(sizeof(char) * c.field + 1)) == NULL)
+		return (NULL);
 	i = 0;
-	len = ft_strlen(res);
-	if (conv->min)
+	if (c.min)
 	{
 		while (i < len)
-			str[i] = res[i++];
-		while (i < conv->field)
-			str[i++] = ' ';
-		str[i] = '\0';
+			new[i] = res[i++];
+		while (i < c.field)
+			new[i++] = ' ';
 	}
 	else
 	{
-		while (i < conv->field - len)
-			str[i++] = ((conv->zero && conv->prec < 0) ||\
-					ft_ischartype(conv) ? '0' : ' ');
-		while (i <= conv->field)
-			str[i] = res[i++ - conv->field + len];
-		str[i] = '\0';
+		while (i < c.field - len)
+			new[i++] = ' ';
+		while (i <= c.field)
+			new[i] = res[i++ - c.field + len];
 	}
-	return (str);
-}
+	new[i] == '\0';
+	free(res);
+	return (new)
+}		
 
-char		*ft_get_base(t_type t)
+static char		*ft_padding(t_conv c, char *res, int len)
 {
-	if (t == o || t == O)
-		return ("01234567");
-	if (t == x)
-		return ("0123456789abcdef");
-	if (t == X || t == p)
-		return ("0123456789ABCDEF");
-	return ("0123456789");
+	int			pfx;
+
+	if (ft_check_tp(c.mod, c.type) > 1 && c.zero && !c.min && c.prec < 0)
+	{
+		pfx = get_pfxlen(res);
+		return (ft_chgprec(res, len, c.field - pfx, pfx));
+	}
+	return (add_space(c, res, len));
 }
 
-int			ft_data_tp(t_mod m, t_type t, int **ttab)
-{
-	if (t == s || t == S || t == c || t == C)
-		return (0);
-	if (ttab[m][t] == 15 || !(ttab[m][t] % 2))
-		return (1);
-	return (-1);
-}
-
-char		*ft_write_conv(t_conv *conv, va_list args, int **ttab)
+char			*ft_write_conv(t_conv c, va_list args, t_convfct **ctab)
 {
 	char		*res;
-	int			dtp;
-	t_val		val;
+	char		*base;
+	char		*new;
 
-	if ((dtp = ft_data_tp(conv->mod, conv->type, ttab)) == 0)
-		res = ft_convert_txt(conv, ttab, args);
-	else
-	{
-		(dtp < 0 ? val.inm : val.unm) = \
-										va_arg(args, (dtp < 0 ? intmax_t : uintmax_t));
-		res = ft_convert_nbr(val, conv, ttab, ft_get_base(conv->type));
-	}
-	if (ft_strlen(res) < conv->field)
-		res = ft_padding(res, conv);	
+	if ((res = (ctab[c.mod][c.type])(c, args)) == NULL)
+		return (NULL);
+	if (c.prec > -1 && (c.type == s || c.type == S))
+		if ((res = ft_dstrsub(res, 0, c.prec)) == NULL)
+			return (NULL);
+	if (c.field > (len = ft_strlen(res)))
+		res = ft_padding(c, res, len);
 	return (res);
 }

@@ -22,14 +22,6 @@ int			ft_isvalid_type(char c)
 	return (0);
 }
 
-int			ft_isvalid_flag(char c)
-{
-	if (c == ' ' || c == '0' || c == '-' ||\
-			c == '+' || c == '#')
-		return (1);
-	return (0);
-}
-
 int			ft_isvalid_mod(char c)
 {
 	if (c == 'l' || c == 'h' || c == 'z' || c == 'j')
@@ -37,11 +29,10 @@ int			ft_isvalid_mod(char c)
 	return (0);
 }
 
-int			ft_isint(t_type type)
+int			ft_isvalid_flag(char c)
 {
-	if (type == p || type == d || type == D || type == i || type == o || \
-			type == O || type == u || type == U || type == x || type == X)
+	if (c == ' ' || c == '0' || c == '-' ||\
+			c == '+' || c == '#')
 		return (1);
 	return (0);
 }
-

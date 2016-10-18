@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:34:41 by rvan-der          #+#    #+#             */
 /*   Updated: 2016/10/13 22:19:33 by rvan-der         ###   ########.fr       */
@@ -13,6 +13,8 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include "libft/libft.h"
+# include <sys/types.h>
+# include <limits.h>
 # include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -37,7 +39,7 @@ typedef enum			e_type
 
 typedef enum			e_mod
 {
-	hh = 0,
+	hh = 1,
 	h,
 	l,
 	ll,
@@ -47,22 +49,22 @@ typedef enum			e_mod
 
 typedef union			u_val
 {
-	int					din; 1
-	unsigned			uin; 2
-	short				hin; 3
-	unsigned short		hun; 4
-	long				lin; 5
-	unsigned long		lun; 6
-	long long			lli; 7
-	unsigned long long	llu; 8
-	char				chr; 9
-	unsigned char		uch; 10
-	char				*str; 11
-	wchar_t				wch; 12
-	wchar_t				*wst; 13
-	intmax_t			inm; 14
-	uintmax_t			unm; 15
-	size_t				szt; 16
+	int					din;
+	unsigned			uin;
+	short				hin;
+	unsigned short		hun;
+	long				lin;
+	unsigned long		lun;
+	long long			lli;
+	unsigned long long	llu;
+	char				chr;
+	unsigned char		uch;
+	char				*str;
+	wchar_t				wch;
+	wchar_t				*wst;
+	intmax_t			inm;
+	uintmax_t			unm;
+	size_t				szt;
 }						t_val;
 
 typedef struct			s_conv
@@ -78,19 +80,64 @@ typedef struct			s_conv
 	int					space;
 }						t_conv;
 
-typedef					char* (*t_traduce)(t_conv*, va_list);
+typedef					char* (*t_convfct)(t_conv, va_list);
 
+/*
+** ft_printf.c
+*/
 int						ft_printf(const char *format, ...);
-int						ft_isvalid_type(char c);
-int						ft_isvalid_flag(char c);
-char					*ft_strnjoin(char const *s1, char const *s2, size_t n);
-int						ft_count_dig(char *str);
-char					*ft_parse(char **format, char *str, va_list args, \
-									char ***ttab);
-t_conv					*ft_init_conv(void);
+/*
+**
+** ft_tools.c
+*/
+char					*ft_dstrnjoin(char *s1, char  *s2, size_t n);
+char					*ft_dstrjoin(char *s1, char *s2);
+int						ft_check_tp(int y, int x);
+/*
+**
+** ft_get_conv.c
+*/
 int						ft_get_conv(char *format, t_conv **conversion, int i,\
 									int indicator);
-int						ft_get_mod(char *format, t_conv **conv, int i);
-int						ft_get_flag(char *format, t_conv **conv, int i);
+/*
+**
+** ft_write_conv.c
+*/
+char					*ft_write_conv(t_conv conv, va_list args,\
+										t_convfct **ctab);
+/*
+**
+** flag_tests.c
+*/
+int						ft_isvalid_type(char c);
+int						ft_isvalid_mod(char c);
+int						ft_isvalid_flag(char c);
+/*
+**
+** cvt_unbr.c
+*/
+char					*cvt_unbr(t_conv c, va_list args);
+/*
+**
+** cvt_snbr.c
+*/
+char					*cvt_snbr(t_conv c, va_list args);
+/*
+**
+** cvt_txt.c
+*/
+char					*cvt_txt(t_conv c, va_list args);
+/*
+**
+** cvt_txt.c
+*/
+char					*cvt_wtxt(t_conv c, va_list args);
+/*
+**
+** nbr_tools.c
+*/
+char					*ft_get_base(t_type t);
+char					*ft_chgprec(char *res, int range, int prec);
+char					*min_nbr(void);
 
 #endif

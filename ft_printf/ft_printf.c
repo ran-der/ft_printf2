@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rvan-der <rvan-der@student42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:35:42 by rvan-der          #+#    #+#             */
 /*   Updated: 2016/10/05 19:48:17 by rvan-der         ###   ########.fr       */
@@ -12,15 +12,17 @@
 
 #include "ft_printf.h"
 
-char		*ft_write_conv_err(char c)
+static void		ft_del_ctab(t_cvtfct **ctab)
 {
-	write(2, "invalid conversion : \"%", 22);
-	write(2, &c, 1);
-	write(2, "\"\n", 1);
-	return (NULL);
+	int		i;
+
+	i = -1;
+	while (++i < 7)
+		free(ctab[i]);
+	free(ctab);
 }
 
-t_conv		*ft_new_conv(void)
+static t_conv		*ft_new_conv(void)
 {
 	t_conv		*conversion;
 
@@ -38,8 +40,8 @@ t_conv		*ft_new_conv(void)
 	return (conversion);
 }
 
-char		*ft_parse(char **format, char *str, va_list args, \
-			char ***ttab)
+static char		*ft_parse(char **format, char *str, va_list args,\
+							t_convfct **ctab)
 {
 	t_conv		*conversion;
 	char		*tmp;
@@ -50,47 +52,61 @@ char		*ft_parse(char **format, char *str, va_list args, \
 		if ((conversion = ft_new_conv()) == NULL)
 			return (NULL);
 		if ((i = ft_get_conv(*format, &conversion, 0, 0)) == 0 )
-			return (NULL);
-		if ((tmp = ft_write_conv(conversion, args, ttab)) == NULL)
+			return (ft_dstrnjoin(str, *(--(*format)), 1));
+		if ((tmp = ft_write_conv(conversion, args, ctab)) == NULL)
 			return (NULL);
 		*format += i;
 		return (ft_dstrjoin(str, tmp));
 	}
-	return (ft_dstrnjoin(str, (*format)++, 1));
+	return (ft_dstrnjoin(str, *((*format)++), 1));
 }
 
-char		***get_ttab(void)
+static int		**get_ctab(t_mod m, t_type t)
 {
-	char		***tab;
+	t_convfct	**ctab;
 	int			i;
-	//int			fd;
-	//char		buff[4];
 
-	if ((tab = (char***)malloc(sizeof(char**) * 6)) == NULL)
+	if ((ctab = (t_convfct**)malloc(sizeof(t_convfct*) * 7)) == NULL)
 		return (NULL);
 	i = -1;
-	while (++i < 6)
-		if ((tab[i] = (char**)malloc(sizeof(char*) * 14)) == NULL)
+	while (++i < 7)
+		if ((ctab[i] = (t_convfct*)malloc(sizeof(t_convfct) * 14)) == NULL)
 			return (NULL);
+	i = -1;
+	while (++i < 98)
+	{
+		//if (ft_check_tp(i / 14, i % 14) == 0)
+		//	ctab[i / 14][i % 14] = &cvt_wtxt;
+		if (ft_check_tp(i / 14, i % 14) == 1)
+			ctab[i / 14][i % 14] = &cvt_txt;
+		if (ft_check_tp(i / 14, i % 14) == 2)
+			ctab[i / 14][i % 14] = &cvt_snbr;
+		if (ft_check_tp(i / 14, i % 14) == 3)
+			ctab[i / 14][i % 14] = &cvt_unbr;
+	}
+	return(ctab);
 }
 
 
 int			ft_printf(const char *format, ...)
 {
 	va_list		args;
-	char		*str;
+	char		*res;
 	char		*form;
-	char		***ttab;
+	t_cvtfct	**ctab;
+	int			ret;
 
-	if (format == NULL || (ttab = get_ttab()) == NULL)
+	if (format == NULL || (ctab = get_ttab()) == NULL)
 		return (-1);
-	str = NULL;
+	res = NULL;
 	form = (char*)format;
 	va_start(args, format);
 	while (*form != '\0')
-		if ((str = ft_parse(&form, str, args, ttab)) == NULL)
+		if ((res = ft_parse(&form, res, args, ctab)) == NULL)
 			return (-1);
 	va_end(args);
-	write(1, str, (ft_strlen(str)));
-	return (ft_strlen(str));
+	write(1, res, (ret = ft_strlen(res)));
+	ft_strdel(res);
+	ft_del_ctab(ctab);
+	return (ret);
 }
