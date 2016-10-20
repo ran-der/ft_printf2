@@ -6,13 +6,13 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016 10/05 18:31:54 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/05 19:48:15 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/20 19:23:16 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char		get_prefix(t_conv c, intmax_t nbr)
+static char		*get_prefix(t_conv c, intmax_t nbr)
 {
 	if (c.plus && !nbr)
 		return ("+0");
@@ -23,7 +23,7 @@ static char		get_prefix(t_conv c, intmax_t nbr)
 	if (c.plus && nbr >= 0)
 		return ("+");
 	if (nbr < 0)
-		return ('-');
+		return ("-");
 	if (c.space)
 		return (" ");
 	return (NULL);
@@ -45,13 +45,13 @@ static int		find_range(intmax_t n, t_conv c)
 }
 
 
-static char		*ft_itoa_pf(intmax_t n, int range)
+static char		*ft_itoa_pf(t_conv c, intmax_t n, int range)
 {
 	int			i;
 	char		*nbr;
 	char		*prefix;
 
-	if (n == −9223372036854775807)
+	if (n == -9223372036854775807)
 		return (min_nbr());
 	if ((nbr = (char*)malloc(sizeof(char) * (range + 1))) == NULL)
 		return (NULL);
@@ -73,20 +73,20 @@ static char		*ft_itoa_pf(intmax_t n, int range)
 }
 
 
-static intmax_t		get_nbr(t_mod m, t_type t, args)
+static intmax_t		get_nbr(t_mod m, t_type t, va_list args)
 {
 	t_val		nbr;
 
 	if ((t == d || t == i) && !m) 
-		return (((intmax_t)nbr.din = va_arg(args, int)));
+		return ((intmax_t)(nbr.din = va_arg(args, int)));
 	if ((t == d || t == D || t == i) && m == h)
-		return ((intmax_t)(nbr.hin = va_arg(args, short)));
-	if (((t == i || t == d || t == D) && m = l ) || (t == D && !m))
+		return ((intmax_t)(short)(nbr.hin = va_arg(args, int)));
+	if (((t == i || t == d || t == D) && m == l ) || (t == D && !m))
 		return ((intmax_t)(nbr.lin = va_arg(args, long)));
 	if ((t == d || t == D || t == i) && m == ll)
 		return ((intmax_t)(nbr.lli = va_arg(args, long long)));
 	if ((t == d || t == D || t == i) && m == hh)
-		return ((intmax_t)(nbr.chr = va_arg(args, char)));
+		return ((intmax_t)(char)(nbr.chr = va_arg(args, int)));
 	if ((t == d || t == D || t == i) && m == j)
 		return ((nbr.inm = va_arg(args, intmax_t)));
 	return (0);
@@ -99,8 +99,8 @@ char			*cvt_snbr(t_conv c, va_list args)
 	int			range;
 
 	nbr = get_nbr(c.mod, c.type, args);
-	range = find_range(nbr);
-	if ((res = ft_itoa_pf(nbr, range)) == NULL)
+	range = find_range(nbr, c);
+	if ((res = ft_itoa_pf(c, nbr, range)) == NULL)
 		return (NULL);
 	if (range < c.prec)
 		if ((res = ft_chgprec(res, range, c.prec, get_pfxlen(res))) == NULL)

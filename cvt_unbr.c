@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-static char		get_prefix(t_conv c, uintmax_t nbr)
+static char		*get_prefix(t_conv c, uintmax_t nbr)
 {
 	if ((c.type == O || c.type == o) && c.altern && !nbr)
 		return ("00");
@@ -11,7 +11,7 @@ static char		get_prefix(t_conv c, uintmax_t nbr)
 	return (NULL);
 }
 
-static char		*ft_itoabase_pf(uintmax_t n, int range, char *base)
+static char		*ft_itoabase_pf(t_conv c, uintmax_t n, int range, char *base)
 {
 	int			i;
 	char		*nbr;
@@ -55,21 +55,21 @@ static int		find_range(t_conv c, uintmax_t n, int base_len)
 	return (range);
 }
 
-static uintmax_t		get_nbr(t_mod m, t_type t, args)
+static uintmax_t		get_nbr(t_mod m, t_type t, va_list args)
 {
 	t_val			nbr;
 
 	if ((t == u || t == o || t == x || t == X) && !m)
-		return (((uintmax_t)nbr.uin = va_arg(args, unsigned)));
+		return ((uintmax_t)(nbr.uin = va_arg(args, unsigned)));
 	if (t != p && m == h)
-		return ((uintmax_t)(nbr.hun = va_arg(args, unsigned short)));
-	if (((t == u || t == o || t == x || t == X) && m = l ) ||\
-			(t == U || t == O && !m))
+		return ((uintmax_t)(unsigned short)(nbr.hun = va_arg(args, unsigned int)));
+	if (((t == u || t == o || t == x || t == X) && m == l ) ||\
+			((t == U || t == O) && !m))
 		return ((uintmax_t)(nbr.lun = va_arg(args, unsigned long)));
 	if (m == ll || t == p)
 		return ((uintmax_t)(nbr.llu = va_arg(args, unsigned long long)));
 	if (t != p && m == hh)
-		return ((uintmax_t)(nbr.uch = va_arg(args, unsigned char)));
+		return ((uintmax_t)(unsigned char)(nbr.uch = va_arg(args, unsigned int)));
 	if (t != p && m == j)
 		return ((nbr.unm = va_arg(args, uintmax_t)));
 	if (t != p && m == z)
@@ -87,7 +87,7 @@ char					*cvt_unbr(t_conv c, va_list args)
 	base = get_base(c.type);
 	nbr = get_nbr(c.mod, c.type, args);
 	range = find_range(c, nbr, ft_strlen(base));
-	if ((res = ft_itoabase_pf(nbr, range, base)) == NULL)
+	if ((res = ft_itoabase_pf(c, nbr, range, base)) == NULL)
 		return (NULL);
 	if (range < c.prec)
 		if ((res = ft_chgprec(res, range, c.prec, get_pfxlen(res))) == NULL)

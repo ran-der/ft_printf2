@@ -6,83 +6,83 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 16:45:16 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/03 17:31:31 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/18 16:47:01 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int		ft_get_flags(char *format, t_conv *conv, int i)
+static int		ft_get_flags(char *format, t_conv **conv, int i)
 {
 	while (ft_isvalid_flag(format[i++]))
 	{
-		if (format[i] == '#' && conv->altern == 0)
-			conv->altern = 1;
-		else if (format[i] == '0' && conv->zero == 0)
-			conv->zero = 1;
-		else if (format[i] == '+' && conv->plus == 0)
-			conv->plus = 1;
-		else if (format[i] == '-' && conv->min == 0)
-			conv->min = 1;
-		else if (format[i] == ' ' && conv->space == 0)
-			conv->space = 1;
+		if (format[i] == '#' && (*conv)->altern == 0)
+			(*conv)->altern = 1;
+		else if (format[i] == '0' && (*conv)->zero == 0)
+			(*conv)->zero = 1;
+		else if (format[i] == '+' && (*conv)->plus == 0)
+			(*conv)->plus = 1;
+		else if (format[i] == '-' && (*conv)->min == 0)
+			(*conv)->min = 1;
+		else if (format[i] == ' ' && (*conv)->space == 0)
+			(*conv)->space = 1;
 		else
 			return (-1);
 	}
 	return (i);
 }
 
-static int		ft_get_mod(char *format, t_conv *conv, int i)
+static int		ft_get_mod(char *format, t_conv **conv, int i)
 {
 	if (format[i] == 'l' || format[i] == 'h')
 	{
 		if (format[i] == format[i + 1])
-			conv->mod = (format[i] == 'h' ? hh : ll);
+			(*conv)->mod = (format[i] == 'h' ? hh : ll);
 		else
-			conv->mod = (format[i] == 'h' ? h : l);
+			(*conv)->mod = (format[i] == 'h' ? h : l);
 		return (format[i] == format[i + 1] ? i + 2 : i + 1);
 	}
 	else
-		conv->mod = (format[i] == 'z' ? z : j);
+		(*conv)->mod = (format[i] == 'z' ? z : j);
 	return (i + 1);
 }
 
 
-static int		ft_get_type2(t_conv *conv, char t)
+static int		ft_get_type2(t_conv **conv, char t)
 {
 	if (t == 'x')
-		conv->type = x;
+		(*conv)->type = x;
 	else if (t == 'X')
-		conv->type = X;
+		(*conv)->type = X;
 	else if (t == 'c')
-		conv->type = c;
+		(*conv)->type = c;
 	else if (t == 'C')
-		conv->type = C;
+		(*conv)->type = C;
 	return (1);
 }
 
-static int		ft_get_type(t_conv *conv, char t)
+static int		ft_get_type(t_conv **conv, char t)
 {
 	if (t == 's')
-		conv->type = s;
+		(*conv)->type = s;
 	else if (t == 'S')
-		conv->type = S;
+		(*conv)->type = S;
 	else if (t == 'p')
-		conv->type = p;
+		(*conv)->type = p;
 	else if (t == 'd')
-		conv->type = d;
+		(*conv)->type = d;
 	else if (t == 'D')
-		conv->type = D;
+		(*conv)->type = D;
 	else if (t == 'i')
-		conv->type = i;
+		(*conv)->type = i;
 	else if (t == 'o')
-		conv->type = o;
+		(*conv)->type = o;
 	else if (t == 'O')
-		conv->type = O;
+		(*conv)->type = O;
 	else if (t == 'u')
-		conv->type = u;
+		(*conv)->type = u;
 	else if (t == 'U')
-		conv->type = s;
+		(*conv)->type = s;
 	else
 		return (ft_get_type2(conv, t));
 	return (1);
@@ -97,31 +97,31 @@ static int		ft_get_type(t_conv *conv, char t)
 ** 4: modifier was found
 */
 
-int				ft_get_conv(char *format, t_conv *conversion, int i,\
+int				ft_get_conv(char *format, t_conv **c, int i,\
 						int indicator)
 {
 	if (indicator < 1 && ft_isvalid_flag(format[i]) &&\
-			(i = ft_get_flags(format, conversion, i)) != -1)
-		return (ft_get_conv(format, conversion, i, 1));
+			(i = ft_get_flags(format, c, i)) != -1)
+		return (ft_get_conv(format, c, i, 1));
 	if (i != -1 && indicator < 2 && ft_isdigit(format[i]))
 	{
-		conversion->field = ft_atoi(format + i);
+		(*c)->field = ft_atoi(format + i);
 		while (ft_isdigit(format[i]))
 			i++;
-		return (ft_get_conv(format, conversion, i, 2));
+		return (ft_get_conv(format, c, i, 2));
 	}
 	if (i != -1 && indicator < 3 && format[i] == '.')
 	{
-		conversion->prec = ft_atoi(format + (++i));
+		(*c)->prec = ft_atoi(format + (++i));
 		while (ft_isdigit(format[i]))
 			i++;
-		return (ft_get_conv(format, conversion, i, 3));
+		return (ft_get_conv(format, c, i, 3));
 	}
 	if (i != -1 && indicator < 4 && ft_isvalid_mod(format[i]) &&\
-			(i = ft_get_mod(format, conversion, i)))
-		return (ft_get_conv(format, conversion, i, 4));
+			(i = ft_get_mod(format, c, i)))
+		return (ft_get_conv(format, c, i, 4));
 	if (i != -1 && ft_isvalid_type(format[i]) &&\
-			ft_get_type(conversion, format[i]))
+			ft_get_type(c, format[i]))
 		return (i + 1);
 	return (0);
 }

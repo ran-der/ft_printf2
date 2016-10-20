@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-char		*ft_get_base(t_type t)
+char		*get_base(t_type t)
 {
 	if (t == o || t == O)
 		return ("01234567");
@@ -11,7 +11,7 @@ char		*ft_get_base(t_type t)
 	return ("0123456789");
 }
 
-int				get_pfxlen(char str)
+int				get_pfxlen(char *str)
 {
 	if (*str == ' ' || *str == '+' || *str == '-')
 		return (1);

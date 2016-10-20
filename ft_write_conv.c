@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 14:59:26 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/14 16:55:13 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/18 17:15:16 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static char		*add_space(t_conv c, char *res, int len)
 
 	if ((new = (char*)malloc(sizeof(char) * c.field + 1)) == NULL)
 		return (NULL);
-	i = 0;
+	i = -1;
 	if (c.min)
 	{
-		while (i < len)
-			new[i] = res[i++];
+		while (++i < len)
+			new[i] = res[i];
 		while (i < c.field)
 			new[i++] = ' ';
 	}
@@ -31,12 +31,13 @@ static char		*add_space(t_conv c, char *res, int len)
 	{
 		while (i < c.field - len)
 			new[i++] = ' ';
-		while (i <= c.field)
-			new[i] = res[i++ - c.field + len];
+		i -= 1;
+		while (++i <= c.field)
+			new[i] = res[i - c.field + len];
 	}
-	new[i] == '\0';
+	new[i] = '\0';
 	free(res);
-	return (new)
+	return (new);
 }		
 
 static char		*ft_padding(t_conv c, char *res, int len)
@@ -51,11 +52,10 @@ static char		*ft_padding(t_conv c, char *res, int len)
 	return (add_space(c, res, len));
 }
 
-char			*ft_write_conv(t_conv c, va_list args, t_convfct **ctab)
+char			*ft_write_conv(t_conv c, va_list args, t_cvtfct **ctab)
 {
 	char		*res;
-	char		*base;
-	char		*new;
+	int			len;
 
 	if ((res = (ctab[c.mod][c.type])(c, args)) == NULL)
 		return (NULL);

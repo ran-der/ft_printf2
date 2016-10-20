@@ -6,13 +6,13 @@
 /*   By: rvan-der <rvan-der@student42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:35:42 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/05 19:48:17 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/20 20:29:13 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void		ft_del_ctab(t_cvtfct **ctab)
+static void			ft_del_ctab(t_cvtfct **ctab)
 {
 	int		i;
 
@@ -40,8 +40,8 @@ static t_conv		*ft_new_conv(void)
 	return (conversion);
 }
 
-static char		*ft_parse(char **format, char *str, va_list args,\
-							t_convfct **ctab)
+static char			*ft_parse(char **format, char *str, va_list args,\
+							t_cvtfct **ctab)
 {
 	t_conv		*conversion;
 	char		*tmp;
@@ -52,25 +52,25 @@ static char		*ft_parse(char **format, char *str, va_list args,\
 		if ((conversion = ft_new_conv()) == NULL)
 			return (NULL);
 		if ((i = ft_get_conv(*format, &conversion, 0, 0)) == 0 )
-			return (ft_dstrnjoin(str, *(--(*format)), 1));
-		if ((tmp = ft_write_conv(conversion, args, ctab)) == NULL)
+			return (ft_dstrnjoin(str, (--(*format)), 1));
+		if ((tmp = ft_write_conv(*conversion, args, ctab)) == NULL)
 			return (NULL);
 		*format += i;
 		return (ft_dstrjoin(str, tmp));
 	}
-	return (ft_dstrnjoin(str, *((*format)++), 1));
+	return (ft_dstrnjoin(str, ((*format)++), 1));
 }
 
-static int		**get_ctab(t_mod m, t_type t)
+static t_cvtfct		**get_ctab(void)
 {
-	t_convfct	**ctab;
+	t_cvtfct	**ctab;
 	int			i;
 
-	if ((ctab = (t_convfct**)malloc(sizeof(t_convfct*) * 7)) == NULL)
+	if ((ctab = (t_cvtfct**)malloc(sizeof(t_cvtfct*) * 7)) == NULL)
 		return (NULL);
 	i = -1;
 	while (++i < 7)
-		if ((ctab[i] = (t_convfct*)malloc(sizeof(t_convfct) * 14)) == NULL)
+		if ((ctab[i] = (t_cvtfct*)malloc(sizeof(t_cvtfct) * 14)) == NULL)
 			return (NULL);
 	i = -1;
 	while (++i < 98)
@@ -88,7 +88,7 @@ static int		**get_ctab(t_mod m, t_type t)
 }
 
 
-int			ft_printf(const char *format, ...)
+int				ft_printf(const char *format, ...)
 {
 	va_list		args;
 	char		*res;
@@ -96,7 +96,7 @@ int			ft_printf(const char *format, ...)
 	t_cvtfct	**ctab;
 	int			ret;
 
-	if (format == NULL || (ctab = get_ttab()) == NULL)
+	if (format == NULL || (ctab = get_ctab()) == NULL)
 		return (-1);
 	res = NULL;
 	form = (char*)format;
@@ -106,7 +106,7 @@ int			ft_printf(const char *format, ...)
 			return (-1);
 	va_end(args);
 	write(1, res, (ret = ft_strlen(res)));
-	ft_strdel(res);
+	ft_strdel(&res);
 	ft_del_ctab(ctab);
 	return (ret);
 }

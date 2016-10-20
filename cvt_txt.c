@@ -2,7 +2,7 @@
 
 char			*cvt_txt(t_conv c, va_list args)
 {
-	char	c;;
+	char	ch;
 	char	*ret;
 
 	if (c.type == s)
@@ -12,8 +12,8 @@ char			*cvt_txt(t_conv c, va_list args)
 	}
 	if ((ret = (char*)malloc(sizeof(char) * 2)) == NULL)
 		return (NULL);
-	c = va_arg(args, char);
-	ret[0] = c;
+	ch = (char)va_arg(args, int);
+	ret[0] = ch;
 	ret[1] = '\0';
 	return (ret);
 }

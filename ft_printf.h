@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:34:41 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/13 22:19:33 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/18 18:27:29 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct			s_conv
 	int					space;
 }						t_conv;
 
-typedef					char* (*t_convfct)(t_conv, va_list);
+typedef					char* (*t_cvtfct)(t_conv, va_list);
 
 /*
 ** ft_printf.c
@@ -93,6 +93,7 @@ int						ft_printf(const char *format, ...);
 char					*ft_dstrnjoin(char *s1, char  *s2, size_t n);
 char					*ft_dstrjoin(char *s1, char *s2);
 int						ft_check_tp(int y, int x);
+char					*ft_dstrsub(char *str, int start, int end);
 /*
 **
 ** ft_get_conv.c
@@ -104,7 +105,7 @@ int						ft_get_conv(char *format, t_conv **conversion, int i,\
 ** ft_write_conv.c
 */
 char					*ft_write_conv(t_conv conv, va_list args,\
-										t_convfct **ctab);
+										t_cvtfct **ctab);
 /*
 **
 ** flag_tests.c
@@ -136,8 +137,9 @@ char					*cvt_wtxt(t_conv c, va_list args);
 **
 ** nbr_tools.c
 */
-char					*ft_get_base(t_type t);
-char					*ft_chgprec(char *res, int range, int prec);
+char					*get_base(t_type t);
+char					*ft_chgprec(char *res, int range, int prec, int pfx);
 char					*min_nbr(void);
+int						get_pfxlen(char *str);
 
 #endif
