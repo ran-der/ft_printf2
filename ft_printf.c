@@ -52,7 +52,7 @@ static char			*ft_parse(char **format, char *str, va_list args,\
 		if ((conversion = ft_new_conv()) == NULL)
 			return (NULL);
 		if ((i = ft_get_conv(*format, &conversion, 0, 0)) == 0 )
-			return (ft_dstrnjoin(str, (--(*format)), 1));
+			return (ft_dstrnjoin(str, (*format - 1), 1));
 		if ((tmp = ft_write_conv(*conversion, args, ctab)) == NULL)
 			return (NULL);
 		*format += i;
@@ -79,9 +79,9 @@ static t_cvtfct		**get_ctab(void)
 		//	ctab[i / 14][i % 14] = &cvt_wtxt;
 		if (ft_check_tp(i / 14, i % 14) == 1)
 			ctab[i / 14][i % 14] = &cvt_txt;
-		if (ft_check_tp(i / 14, i % 14) == 2)
+		else if (ft_check_tp(i / 14, i % 14) == 2)
 			ctab[i / 14][i % 14] = &cvt_snbr;
-		if (ft_check_tp(i / 14, i % 14) == 3)
+		else if (ft_check_tp(i / 14, i % 14) == 3)
 			ctab[i / 14][i % 14] = &cvt_unbr;
 	}
 	return(ctab);
@@ -106,7 +106,7 @@ int				ft_printf(const char *format, ...)
 			return (-1);
 	va_end(args);
 	write(1, res, (ret = ft_strlen(res)));
-	ft_strdel(&res);
+	ft_strdel(&res);;
 	ft_del_ctab(ctab);
 	return (ret);
 }

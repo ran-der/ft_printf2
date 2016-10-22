@@ -51,5 +51,6 @@ char			*ft_chgprec(char *res, int range, int prec, int pfx)
 		new[i++] = res[j++];
 	new[i] = '\0';
 	free(res);
+	write(1, "chgprec\n", 8);
 	return (new);
 }

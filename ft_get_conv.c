@@ -14,7 +14,7 @@
 
 static int		ft_get_flags(char *format, t_conv **conv, int i)
 {
-	while (ft_isvalid_flag(format[i++]))
+	while (ft_isvalid_flag(format[i]))
 	{
 		if (format[i] == '#' && (*conv)->altern == 0)
 			(*conv)->altern = 1;
@@ -28,6 +28,7 @@ static int		ft_get_flags(char *format, t_conv **conv, int i)
 			(*conv)->space = 1;
 		else
 			return (-1);
+		i++;
 	}
 	return (i);
 }

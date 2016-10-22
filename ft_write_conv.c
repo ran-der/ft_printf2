@@ -63,6 +63,6 @@ char			*ft_write_conv(t_conv c, va_list args, t_cvtfct **ctab)
 		if ((res = ft_dstrsub(res, 0, c.prec)) == NULL)
 			return (NULL);
 	if (c.field > (len = ft_strlen(res)))
-		res = ft_padding(c, res, len);
+		res = ft_padding(c, res, len);;
 	return (res);
 }

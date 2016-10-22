@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 # include "libft/libft.h"
 # include <sys/types.h>
+# include <inttypes.h>
 # include <limits.h>
 # include <stdarg.h>
 # include <stdlib.h>
@@ -93,7 +94,7 @@ int						ft_printf(const char *format, ...);
 char					*ft_dstrnjoin(char *s1, char  *s2, size_t n);
 char					*ft_dstrjoin(char *s1, char *s2);
 int						ft_check_tp(int y, int x);
-char					*ft_dstrsub(char *str, int start, int end);
+char					*ft_dstrsub(char *str, unsigned int start, int len);
 /*
 **
 ** ft_get_conv.c
