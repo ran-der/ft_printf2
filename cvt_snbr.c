@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016 10/05 18:31:54 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/20 19:23:16 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/24 17:03:18 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,14 @@ char			*cvt_snbr(t_conv c, va_list args)
 	intmax_t	nbr;
 	char		*res;
 	int			range;
+	int			pfx;
 
 	nbr = get_nbr(c.mod, c.type, args);
 	range = find_range(nbr, c);
 	if ((res = ft_itoa_pf(c, nbr, range)) == NULL)
 		return (NULL);
-	if (range < c.prec)
-		if ((res = ft_chgprec(res, range, c.prec, get_pfxlen(res))) == NULL)
+	if (range - (pfx = get_pfxlen(res)) < c.prec)
+		if ((res = ft_chgprec(res, range, c.prec, pfx)) == NULL)
 			return (NULL);
 	return (res);
 }

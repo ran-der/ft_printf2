@@ -6,15 +6,15 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:34:41 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/18 18:27:29 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/24 16:40:53 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
+# include <stdio.h>
 # include "libft/libft.h"
 # include <sys/types.h>
-# include <inttypes.h>
 # include <limits.h>
 # include <stdarg.h>
 # include <stdlib.h>
@@ -94,7 +94,7 @@ int						ft_printf(const char *format, ...);
 char					*ft_dstrnjoin(char *s1, char  *s2, size_t n);
 char					*ft_dstrjoin(char *s1, char *s2);
 int						ft_check_tp(int y, int x);
-char					*ft_dstrsub(char *str, unsigned int start, int len);
+char					*ft_dstrsub(char *str, int start, int end);
 /*
 **
 ** ft_get_conv.c

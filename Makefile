@@ -6,7 +6,7 @@
 #    By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/03 18:53:21 by rvan-der          #+#    #+#              #
-#    Updated: 2016/10/20 19:15:33 by rvan-der         ###   ########.fr        #
+#    Updated: 2016/10/24 16:30:34 by rvan-der         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -28,18 +28,17 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAG) $(SRC)
-	make -C libft/
+	make -C libft
 	cp libft/libft.a $(NAME)
+	$(CC) $(CFLAG) $(SRC)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
 clean:
-	make -C libft/ clean
+	make -C libft clean
 	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f libft/libft.a
 
 re: fclean all

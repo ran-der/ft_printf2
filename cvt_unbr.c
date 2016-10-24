@@ -83,14 +83,15 @@ char					*cvt_unbr(t_conv c, va_list args)
 	char			*res;
 	int				range;
 	char			*base;
+	int				pfx;
 
 	base = get_base(c.type);
 	nbr = get_nbr(c.mod, c.type, args);
 	range = find_range(c, nbr, ft_strlen(base));
 	if ((res = ft_itoabase_pf(c, nbr, range, base)) == NULL)
 		return (NULL);
-	if (range < c.prec)
-		if ((res = ft_chgprec(res, range, c.prec, get_pfxlen(res))) == NULL)
+	if (range - (pfx = get_pfxlen(res)) < c.prec)
+		if ((res = ft_chgprec(res, range, c.prec, pfx)) == NULL)
 			return (NULL);
 	return (res);
 }

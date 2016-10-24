@@ -39,18 +39,17 @@ char			*ft_chgprec(char *res, int range, int prec, int pfx)
 	if ((new = (char*)malloc(sizeof(char) * prec + pfx + 1)) == NULL)
 		return (NULL);
 	i = 0;
-	if (pfx)
+	while (i < pfx)
 	{
-		while (i < pfx)
-		new[i++] = *res;
+		new[i] = res[i];
+		i++;
 	}
-	while (i < prec - range - (pfx ? pfx : 0))
+	while (i < prec + pfx - (range - pfx))
 		new[i++] = '0';
 	j = pfx;
 	while (j < range + pfx)
 		new[i++] = res[j++];
 	new[i] = '\0';
 	free(res);
-	write(1, "chgprec\n", 8);
 	return (new);
 }
