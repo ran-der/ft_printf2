@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 17:48:46 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/24 17:53:13 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/03 18:04:40 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char					*cvt_unbr(t_conv c, va_list args)
 	range = find_range(c, nbr, ft_strlen(base));
 	if ((res = ft_itoabase_pf(c, nbr, range, base)) == NULL)
 		return (NULL);
-	if (range - (pfx = get_pfxlen(res)) < c.prec)
+	if (range - (pfx = get_pfxlen(res, c)) < c.prec)
 		if ((res = ft_chgprec(res, range, c.prec, pfx)) == NULL)
 			return (NULL);
 	return (res);

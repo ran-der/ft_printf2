@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 16:45:16 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/24 17:54:38 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/03 17:32:23 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int		ft_get_type2(t_conv **conv, char t)
 		(*conv)->type = c;
 	else if (t == 'C')
 		(*conv)->type = C;
+	else
+		return (-1);
 	return (1);
 }
 

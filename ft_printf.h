@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:34:41 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/24 17:58:55 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/03 18:03:49 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,6 @@ char					*cvt_wtxt(t_conv c, va_list args);
 char					*get_base(t_type t);
 char					*ft_chgprec(char *res, int range, int prec, int pfx);
 char					*min_nbr(void);
-int						get_pfxlen(char *str);
+int						get_pfxlen(char *str, t_conv c);
 
 #endif

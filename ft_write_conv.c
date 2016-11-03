@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 14:59:26 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/24 17:55:05 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/03 18:05:14 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ static char		*ft_padding(t_conv c, char *res, int len)
 {
 	int			pfx;
 
-	if (ft_check_tp(c.mod, c.type) > 1 && c.zero && !c.min && c.prec < 0)
+	if (c.zero && !c.min && !(c.prec >= 0 && ft_check_tp(c.mod, c.type) > 1))
 	{
-		pfx = get_pfxlen(res);
+		pfx = get_pfxlen(res, c);
 		return (ft_chgprec(res, len, c.field - pfx, pfx));
 	}
 	return (add_space(c, res, len));

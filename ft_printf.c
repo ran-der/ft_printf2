@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:35:42 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/24 17:45:00 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/03 17:34:39 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char			*ft_parse(char **format, char *str, va_list args,\
 		if ((conversion = ft_new_conv()) == NULL)
 			return (NULL);
 		if ((i = ft_get_conv(*format, &conversion, 0, 0)) == 0)
-			return (ft_dstrnjoin(str, (--(*format)), 1));
+			return (ft_dstrnjoin(str, ((*format)++), 1));
 		if ((tmp = ft_write_conv(*conversion, args, ctab)) == NULL)
 			return (NULL);
 		*format += i;
