@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cvt_unbr.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/24 17:48:46 by rvan-der          #+#    #+#             */
+/*   Updated: 2016/10/24 17:53:13 by rvan-der         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static char		*get_prefix(t_conv c, uintmax_t nbr)
+static char				*get_prefix(t_conv c, uintmax_t nbr)
 {
 	if ((c.type == O || c.type == o) && c.altern && !nbr)
 		return ("00");
@@ -11,12 +23,13 @@ static char		*get_prefix(t_conv c, uintmax_t nbr)
 	return (NULL);
 }
 
-static char		*ft_itoabase_pf(t_conv c, uintmax_t n, int range, char *base)
+static char				*ft_itoabase_pf(t_conv c, uintmax_t n, int range,\
+										char *base)
 {
-	int			i;
-	char		*nbr;
-	char		*prefix;
-	int			base_len;
+	int					i;
+	char				*nbr;
+	char				*prefix;
+	int					base_len;
 
 	if ((nbr = (char*)malloc(sizeof(char) * (range + 1))) == NULL)
 		return (NULL);
@@ -24,7 +37,7 @@ static char		*ft_itoabase_pf(t_conv c, uintmax_t n, int range, char *base)
 	{
 		i = -1;
 		while (prefix[++i] != '\0')
-		nbr[i] = prefix[i];
+			nbr[i] = prefix[i];
 	}
 	base_len = ft_strlen(base);
 	i = range - 1;
@@ -37,9 +50,9 @@ static char		*ft_itoabase_pf(t_conv c, uintmax_t n, int range, char *base)
 	return (nbr);
 }
 
-static int		find_range(t_conv c, uintmax_t n, int base_len)
+static int				find_range(t_conv c, uintmax_t n, int base_len)
 {
-	int			range;
+	int					range;
 
 	range = 0;
 	if (c.type == p || (c.altern && (c.type == x || c.type == X) && n) ||\
@@ -57,19 +70,25 @@ static int		find_range(t_conv c, uintmax_t n, int base_len)
 
 static uintmax_t		get_nbr(t_mod m, t_type t, va_list args)
 {
-	t_val			nbr;
+	t_val				nbr;
 
 	if ((t == u || t == o || t == x || t == X) && !m)
 		return ((uintmax_t)(nbr.uin = va_arg(args, unsigned)));
 	if (t != p && m == h)
-		return ((uintmax_t)(unsigned short)(nbr.hun = va_arg(args, unsigned int)));
-	if (((t == u || t == o || t == x || t == X) && m == l ) ||\
+	{
+		return ((uintmax_t)(unsigned short)(nbr.hun =\
+					va_arg(args, unsigned int)));
+	}
+	if (((t == u || t == o || t == x || t == X) && m == l) ||\
 			((t == U || t == O) && !m))
 		return ((uintmax_t)(nbr.lun = va_arg(args, unsigned long)));
 	if (m == ll || t == p)
 		return ((uintmax_t)(nbr.llu = va_arg(args, unsigned long long)));
 	if (t != p && m == hh)
-		return ((uintmax_t)(unsigned char)(nbr.uch = va_arg(args, unsigned int)));
+	{
+		return ((uintmax_t)(unsigned char)(nbr.uch =\
+					va_arg(args, unsigned int)));
+	}
 	if (t != p && m == j)
 		return ((nbr.unm = va_arg(args, uintmax_t)));
 	if (t != p && m == z)
@@ -79,11 +98,11 @@ static uintmax_t		get_nbr(t_mod m, t_type t, va_list args)
 
 char					*cvt_unbr(t_conv c, va_list args)
 {
-	uintmax_t		nbr;
-	char			*res;
-	int				range;
-	char			*base;
-	int				pfx;
+	uintmax_t			nbr;
+	char				*res;
+	int					range;
+	char				*base;
+	int					pfx;
 
 	base = get_base(c.type);
 	nbr = get_nbr(c.mod, c.type, args);

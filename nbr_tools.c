@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   nbr_tools.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/24 17:46:58 by rvan-der          #+#    #+#             */
+/*   Updated: 2016/10/24 17:54:01 by rvan-der         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-char		*get_base(t_type t)
+char				*get_base(t_type t)
 {
 	if (t == o || t == O)
 		return ("01234567");
@@ -11,7 +23,7 @@ char		*get_base(t_type t)
 	return ("0123456789");
 }
 
-int				get_pfxlen(char *str)
+int					get_pfxlen(char *str)
 {
 	if (*str == ' ' || *str == '+' || *str == '-')
 		return (1);
@@ -20,17 +32,7 @@ int				get_pfxlen(char *str)
 	return (0);
 }
 
-char			*min_nbr(void)
-{
-	char		*ret;
-
-	if ((ret = (char*)malloc(sizeof(char) * 21)) == NULL)
-		return (NULL);
-	ret = ft_strcpy(ret, "−9223372036854775807");
-	return (ret);
-}
-
-char			*ft_chgprec(char *res, int range, int prec, int pfx)
+char				*ft_chgprec(char *res, int range, int prec, int pfx)
 {
 	char			*new;
 	int				i;

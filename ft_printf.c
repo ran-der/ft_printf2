@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:35:42 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/20 20:29:13 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/24 17:45:00 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void			ft_del_ctab(t_cvtfct **ctab)
 {
-	int		i;
+	int				i;
 
 	i = -1;
 	while (++i < 7)
@@ -24,7 +24,7 @@ static void			ft_del_ctab(t_cvtfct **ctab)
 
 static t_conv		*ft_new_conv(void)
 {
-	t_conv		*conversion;
+	t_conv			*conversion;
 
 	if ((conversion = (t_conv*)malloc(sizeof(t_conv))) == NULL)
 		return (NULL);
@@ -43,15 +43,15 @@ static t_conv		*ft_new_conv(void)
 static char			*ft_parse(char **format, char *str, va_list args,\
 							t_cvtfct **ctab)
 {
-	t_conv		*conversion;
-	char		*tmp;
-	int			i;
+	t_conv			*conversion;
+	char			*tmp;
+	int				i;
 
 	if (**format == '%' && *(++(*format)) != '%')
 	{
 		if ((conversion = ft_new_conv()) == NULL)
 			return (NULL);
-		if ((i = ft_get_conv(*format, &conversion, 0, 0)) == 0 )
+		if ((i = ft_get_conv(*format, &conversion, 0, 0)) == 0)
 			return (ft_dstrnjoin(str, (--(*format)), 1));
 		if ((tmp = ft_write_conv(*conversion, args, ctab)) == NULL)
 			return (NULL);
@@ -63,8 +63,8 @@ static char			*ft_parse(char **format, char *str, va_list args,\
 
 static t_cvtfct		**get_ctab(void)
 {
-	t_cvtfct	**ctab;
-	int			i;
+	t_cvtfct		**ctab;
+	int				i;
 
 	if ((ctab = (t_cvtfct**)malloc(sizeof(t_cvtfct*) * 7)) == NULL)
 		return (NULL);
@@ -84,17 +84,16 @@ static t_cvtfct		**get_ctab(void)
 		if (ft_check_tp(i / 14, i % 14) == 3)
 			ctab[i / 14][i % 14] = &cvt_unbr;
 	}
-	return(ctab);
+	return (ctab);
 }
 
-
-int				ft_printf(const char *format, ...)
+int					ft_printf(const char *format, ...)
 {
-	va_list		args;
-	char		*res;
-	char		*form;
-	t_cvtfct	**ctab;
-	int			ret;
+	va_list			args;
+	char			*res;
+	char			*form;
+	t_cvtfct		**ctab;
+	int				ret;
 
 	if (format == NULL || (ctab = get_ctab()) == NULL)
 		return (-1);

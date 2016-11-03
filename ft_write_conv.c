@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 14:59:26 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/18 17:15:16 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/24 17:55:05 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char		*add_space(t_conv c, char *res, int len)
 	new[i] = '\0';
 	free(res);
 	return (new);
-}		
+}
 
 static char		*ft_padding(t_conv c, char *res, int len)
 {

@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 18:40:47 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/24 16:37:18 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/10/24 17:45:37 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char		*ft_dstrsub(char *str, int start, int end)
 	char	*sub;
 	size_t	n;
 
-	if (start >= 0 && end >= 0 && end >=start)
+	if (start >= 0 && end >= 0 && end >= start)
 	{
 		n = end - start;
 		if ((sub = (char*)malloc(sizeof(char) * n + 1)) == NULL)
