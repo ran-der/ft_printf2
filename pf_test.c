@@ -10,10 +10,10 @@ int		main(void)
 	char	c = 'P';
 
 	write(1, "ft_printf output:\n", 18);
-	retft = ft_printf("vvvv%#050.12svvvv%luvvvv\n", str, i);
+	retft = ft_printf("abcdef%.0sabc\n", str);
 	printf("ret = %d\n", retft);
 	write(1, "\nprintf output:\n", 16);
-	ret = printf("vvvv%#050.12svvvv%luvvvv\n", str, i);
+	ret = printf("abcdef%.0sabc\n", str);
 	printf("ret = %d\n", ret);
 	return (0);
 }
