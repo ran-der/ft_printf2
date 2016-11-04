@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 # include <stdio.h>
 # include "libft/libft.h"
+# include <inttypes.h>
 # include <sys/types.h>
 # include <limits.h>
 # include <stdarg.h>

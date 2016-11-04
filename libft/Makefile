@@ -14,6 +14,7 @@ NAME = libft.a
 CC = gcc
 CFLAG = -c -Wall -Werror -Wextra
 SRC =	ft_memcmp.c \
+		ft_realloc.c \
 		ft_putstr_fd.c \
 		ft_strlcat.c \
 		ft_strstr.c \

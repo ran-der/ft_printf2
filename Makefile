@@ -28,7 +28,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME):
-	make -C libft
+	make -C libft re
 	cp libft/libft.a $(NAME)
 	$(CC) $(CFLAG) $(SRC)
 	ar rc $(NAME) $(OBJ)
