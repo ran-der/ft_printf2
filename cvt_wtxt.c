@@ -23,11 +23,12 @@ char			*rewrite(t_conv c, wchar_t *wstr, unsigned short short *masks)
 	if (wstr == NULL)
 		return (NULL);
 	chars = 0;
-	bytes = 0;
 	i = 0;
 	while (*((unsigned short short*)(wstr + i)) != 0)
 	{
-		while
+		bytes = 0;
+		while (bytes < 3)
+			if ()
 
 
 
@@ -35,6 +36,7 @@ char			*cvt_wtxt(t_conv c, va_list args)
 {
 	wchar_t		ch[2];
 	wchar_t		*tmp;
+	unsigned short short	masks[3];
 
 	if (c.type == s || c.type == S)
 	{
