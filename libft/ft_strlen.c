@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/21 15:24:11 by rvan-der          #+#    #+#             */
-/*   Updated: 2015/10/21 15:26:07 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/06 23:38:53 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s[i] != '\0')
-		i++;
+	if (s != NULL)
+	{
+		while (s[i] != '\0')
+			i++;
+	}
 	return (i);
 }

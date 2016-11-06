@@ -6,7 +6,7 @@
 #    By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/03 18:53:21 by rvan-der          #+#    #+#              #
-#    Updated: 2016/10/24 16:30:34 by rvan-der         ###   ########.fr        #
+#    Updated: 2016/11/06 17:49:28 by rvan-der         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,6 +20,7 @@ SRC =	ft_get_conv.c \
 		ft_tools.c \
 		nbr_tools.c \
 		cvt_txt.c \
+		cvt_wtxt.c \
 		cvt_snbr.c \
 		cvt_unbr.c \
 

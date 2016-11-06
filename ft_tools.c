@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 18:40:47 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/10/24 17:45:37 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/06 17:45:26 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,27 @@ int			ft_check_tp(int y, int x)
 	return (3);
 }
 
-char		*ft_dstrsub(char *str, int start, int end)
+char		*ft_dstrsub(char *str, size_t start, size_t end)
 {
 	char	*sub;
 	size_t	n;
 
-	if (start >= 0 && end >= 0 && end >= start)
+	sub = NULL;
+	if (end > start)
 	{
 		n = end - start;
 		if ((sub = (char*)malloc(sizeof(char) * n + 1)) == NULL)
 			return (NULL);
-		sub = ft_strncpy(sub, str, n);
-		free(str);
-		return (sub);
+		sub = ft_strncpy(sub, str + start, n);
 	}
-	return (NULL);
+	else
+	{
+		if ((sub = (char*)malloc(sizeof(char))) == NULL)
+			return (NULL);
+		*sub = '\0';
+	}
+	free(str);
+	return (sub);
 }
 
 char		*ft_dstrjoin(char *s1, char *s2)

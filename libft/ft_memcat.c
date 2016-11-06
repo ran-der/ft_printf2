@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_memcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 17:54:38 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/05 17:54:47 by rvan-der         ###   ########.fr       */
+/*   Created: 2016/11/05 19:29:37 by rvan-der          #+#    #+#             */
+/*   Updated: 2016/11/06 17:44:12 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		*ft_realloc(void *ptr, size_t src_size, size_t dst_size)
+void		*ft_memcat(void *dst, void *src, size_t start, size_t len)
 {
-	void	*new;
+	size_t		i;
 
-	if ((new = malloc(dst_size)) == NULL)
-		return (NULL);
-	new = ft_memcpy(new, ptr, src_size);
-	ft_memdel(&ptr);
-	return (new);
+	if (dst == NULL || src == NULL)
+		return (dst);
+	i = 0;
+	while (i < len)
+		*((char*)(dst + start + i)) = *((char*)(src + i));
+	return (dst);
 }

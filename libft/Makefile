@@ -6,7 +6,7 @@
 #    By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/03 18:53:21 by rvan-der          #+#    #+#              #
-#    Updated: 2016/03/02 20:07:02 by rvan-der         ###   ########.fr        #
+#    Updated: 2016/11/06 17:53:21 by rvan-der         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,6 +14,7 @@ NAME = libft.a
 CC = gcc
 CFLAG = -c -Wall -Werror -Wextra
 SRC =	ft_memcmp.c \
+		ft_memcat.c \
 		ft_realloc.c \
 		ft_putstr_fd.c \
 		ft_strlcat.c \
@@ -22,7 +23,9 @@ SRC =	ft_memcmp.c \
 		ft_memcpy.c \
 		ft_strcat.c \
 		ft_strlen.c \
+		ft_wstrlen.c \
 		ft_strsub.c \
+		ft_dwstrsub.c \
 		ft_bzero.c \
 		ft_memdel.c \
 		ft_strchr.c \

@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:35:42 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/03 17:34:39 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/06 23:40:45 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ static t_cvtfct		**get_ctab(void)
 	i = -1;
 	while (++i < 98)
 	{
-		//if (ft_check_tp(i / 14, i % 14) == 0)
-		//	ctab[i / 14][i % 14] = &cvt_wtxt;
+		if (ft_check_tp(i / 14, i % 14) == 0)
+			ctab[i / 14][i % 14] = &cvt_wtxt;
 		if (ft_check_tp(i / 14, i % 14) == 1)
 			ctab[i / 14][i % 14] = &cvt_txt;
 		if (ft_check_tp(i / 14, i % 14) == 2)
@@ -104,7 +104,8 @@ int					ft_printf(const char *format, ...)
 		if ((res = ft_parse(&form, res, args, ctab)) == NULL)
 			return (-1);
 	va_end(args);
-	write(1, res, (ret = ft_strlen(res)));
+	write(1, res, ft_strlen(res));
+	ret = ft_wstrlen((unsigned char*)res);
 	ft_strdel(&res);
 	ft_del_ctab(ctab);
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/03 18:55:07 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/03/04 19:04:57 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/06 18:23:20 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+void				*ft_dwstrsub(unsigned char *wstr, size_t start, size_t len);
 int					ft_atoi(const char *str);
 void				ft_bzero(void *s, size_t n);
 int					ft_isalnum(int c);

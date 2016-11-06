@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 14:59:26 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/03 18:05:14 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/05 20:27:21 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char			*ft_write_conv(t_conv c, va_list args, t_cvtfct **ctab)
 
 	if ((res = (ctab[c.mod][c.type])(c, args)) == NULL)
 		return (NULL);
-	if (c.prec > -1 && (c.type == s || c.type == S))
+	if (c.prec > -1 && (c.type == s && c.mod != l && c.mod != ll))
 		if ((res = ft_dstrsub(res, 0, c.prec)) == NULL)
 			return (NULL);
 	if (c.field > (len = ft_strlen(res)))
