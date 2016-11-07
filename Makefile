@@ -6,7 +6,7 @@
 #    By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/03 18:53:21 by rvan-der          #+#    #+#              #
-#    Updated: 2016/11/06 17:49:28 by rvan-der         ###   ########.fr        #
+#    Updated: 2016/11/06 23:59:21 by rvan-der         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -41,5 +41,6 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f libft/libft.a
 
 re: fclean all
