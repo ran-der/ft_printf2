@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 17:48:46 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/03 18:04:40 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/08 19:33:59 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 static char				*get_prefix(t_conv c, uintmax_t nbr)
 {
-	if ((c.type == O || c.type == o) && c.altern && !nbr)
-		return ("00");
-	if (!nbr)
+	if (((c.type == O || c.type == o) && c.altern) || (!nbr && c.prec != 0))
 		return ("0");
 	if (c.altern && (c.type == x || c.type == X || c.type == p))
 		return (c.type == X ? "0X" : "0x");
@@ -55,10 +53,10 @@ static int				find_range(t_conv c, uintmax_t n, int base_len)
 	int					range;
 
 	range = 0;
-	if (c.type == p || (c.altern && (c.type == x || c.type == X) && n) ||\
-		(c.altern && (c.type == o || c.type == O) && !n))
+	if (c.type == p || (c.altern && (c.type == x || c.type == X) && n))
 		range = 2;
-	else if (c.altern && (c.type == o || c.type == O) && n)
+	else if ((!n && c.prec != 0) ||\
+				(c.altern && (c.type == o || c.type == O)))
 		range = 1;
 	while (n != 0)
 	{
@@ -80,7 +78,7 @@ static uintmax_t		get_nbr(t_mod m, t_type t, va_list args)
 					va_arg(args, unsigned int)));
 	}
 	if (((t == u || t == o || t == x || t == X) && m == l) ||\
-			((t == U || t == O) && !m))
+			((t == U || t == O) && !m) || (t != p && m == z))
 		return ((uintmax_t)(nbr.lun = va_arg(args, unsigned long)));
 	if (m == ll || t == p)
 		return ((uintmax_t)(nbr.llu = va_arg(args, unsigned long long)));
@@ -91,8 +89,6 @@ static uintmax_t		get_nbr(t_mod m, t_type t, va_list args)
 	}
 	if (t != p && m == j)
 		return ((nbr.unm = va_arg(args, uintmax_t)));
-	if (t != p && m == z)
-		return ((uintmax_t)(nbr.uch = va_arg(args, size_t)));
 	return (0);
 }
 

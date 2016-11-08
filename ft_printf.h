@@ -6,7 +6,7 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:34:41 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/06 23:50:11 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/08 19:58:40 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "libft/libft.h"
 # include <inttypes.h>
 # include <sys/types.h>
-# include <limits.h>
 # include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
+# define ABS(x) (x >= 0 ? x : -x)
 
 typedef enum			e_type
 {
@@ -35,8 +35,9 @@ typedef enum			e_type
 	U,
 	x,
 	X,
-	c,
-	C
+	ch,
+	C,
+	pct
 }						t_type;
 
 typedef enum			e_mod
@@ -84,6 +85,13 @@ typedef struct			s_conv
 
 typedef					char*(*t_cvtfct)(t_conv, va_list);
 
+typedef struct			s_arg
+{
+	va_list				args;
+	t_cvtfct			**ctab;
+	int					nul;
+}						t_arg;
+
 /*
 ** ft_printf.c
 */
@@ -106,8 +114,7 @@ int						ft_get_conv(char *format, t_conv **conversion, int i,\
 /*
 ** ft_write_conv.c
 */
-char					*ft_write_conv(t_conv conv, va_list args,\
-										t_cvtfct **ctab);
+char					*ft_write_conv(t_conv conv, t_arg *arg);
 /*
 ** flag_tests.c
 */

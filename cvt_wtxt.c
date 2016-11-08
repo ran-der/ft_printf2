@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 19:03:00 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/06 23:43:30 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/07 17:27:28 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char			*cvt_wtxt(t_conv c, va_list args)
 	if (c.type == s || c.type == S)
 	{
 		tmp = va_arg(args, wchar_t*);
-		return (rewrite(c, tmp));
+		return (tmp == NULL ? ft_strdup("(null)") : rewrite(c, tmp));
 	}
 	wch[0] = va_arg(args, wchar_t);
 	wch[1] = '\0';
