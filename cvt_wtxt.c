@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 19:03:00 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/07 17:27:28 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/10 17:52:11 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char			cvt_byte(unsigned int wchar, int range, int pos)
 	return (ret);
 }
 
-static char		*wstr_to_utf8(unsigned int wchar)
+char			*wstr_to_utf8(unsigned int wchar)
 {
 	char			*ret;
 	int				range;
@@ -48,7 +48,7 @@ static char		*wstr_to_utf8(unsigned int wchar)
 	return (ret);
 }
 
-static char		*rewrite(t_conv c, wchar_t *wstr)
+char			*rewrite(t_conv c, wchar_t *wstr)
 {
 	char			*utf_ch;
 	char			*ret;
@@ -75,6 +75,7 @@ char			*cvt_wtxt(t_conv c, va_list args)
 {
 	wchar_t			wch[2];
 	wchar_t			*tmp;
+	char			*ret;
 
 	if (c.type == s || c.type == S)
 	{
@@ -83,5 +84,12 @@ char			*cvt_wtxt(t_conv c, va_list args)
 	}
 	wch[0] = va_arg(args, wchar_t);
 	wch[1] = '\0';
+	if (*wch == '\0')
+	{
+		if ((ret = (char*)malloc(sizeof(char))) == NULL)
+			return (NULL);
+		*ret = '\0';
+		return (ret);
+	}
 	return (rewrite(c, wch));
 }

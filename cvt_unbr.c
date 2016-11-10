@@ -6,22 +6,22 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/24 17:48:46 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/08 19:33:59 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/10 17:29:59 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char				*get_prefix(t_conv c, uintmax_t nbr)
+char					*get_prefix(t_conv c, uintmax_t nbr)
 {
 	if (((c.type == O || c.type == o) && c.altern) || (!nbr && c.prec != 0))
 		return ("0");
-	if (c.altern && (c.type == x || c.type == X || c.type == p))
+	if ((c.altern && nbr && (c.type == x || c.type == X)) || c.type == p)
 		return (c.type == X ? "0X" : "0x");
 	return (NULL);
 }
 
-static char				*ft_itoabase_pf(t_conv c, uintmax_t n, int range,\
+char					*ft_itoabase_pf(t_conv c, uintmax_t n, int range,\
 										char *base)
 {
 	int					i;
@@ -48,7 +48,7 @@ static char				*ft_itoabase_pf(t_conv c, uintmax_t n, int range,\
 	return (nbr);
 }
 
-static int				find_range(t_conv c, uintmax_t n, int base_len)
+int						find_range(t_conv c, uintmax_t n, int base_len)
 {
 	int					range;
 
@@ -66,7 +66,7 @@ static int				find_range(t_conv c, uintmax_t n, int base_len)
 	return (range);
 }
 
-static uintmax_t		get_nbr(t_mod m, t_type t, va_list args)
+uintmax_t				get_nbr(t_mod m, t_type t, va_list args)
 {
 	t_val				nbr;
 
@@ -102,6 +102,9 @@ char					*cvt_unbr(t_conv c, va_list args)
 
 	base = get_base(c.type);
 	nbr = get_nbr(c.mod, c.type, args);
+	if (c.type == p && !nbr)
+		return (c.prec > -1 ? ft_chgprec(ft_strdup("0x0"), 3, c.prec, 2) :\
+				ft_strdup("0x0"));
 	range = find_range(c, nbr, ft_strlen(base));
 	if ((res = ft_itoabase_pf(c, nbr, range, base)) == NULL)
 		return (NULL);

@@ -6,13 +6,13 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/17 14:59:26 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/07 17:16:27 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/10 18:20:08 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char		*add_space(t_conv c, char *res, int len)
+char			*add_space(t_conv c, char *res, int len)
 {
 	char		*new;
 	int			i;
@@ -40,7 +40,7 @@ static char		*add_space(t_conv c, char *res, int len)
 	return (new);
 }
 
-static char		*ft_padding(t_conv c, char *res, int len)
+char			*ft_padding(t_conv c, char *res, int len)
 {
 	int			pfx;
 
@@ -68,16 +68,21 @@ char			*ft_write_conv(t_conv c, t_arg *arg)
 {
 	char		*res;
 	int			len;
+	int			nul_ch;
 
+	nul_ch = 0;
 	if ((res = (c.type == pct ? cvt_pct() : \
 		((arg->ctab)[c.mod][c.type])(c, arg->args))) == NULL)
 		return (NULL);
-	if (c.type == ch && !(*res))
-		(arg->nul)++;
-	if (c.prec > -1 && (c.type == s && c.mod != l && c.mod != ll))
+	if (!(*res))
+		nul_ch = ++(arg->nul);
+	len = ft_wstrlen((unsigned char*)res);
+	if ((c.type == s && c.mod != l && c.mod != ll) && c.prec > -1 &&\
+			len > c.prec)
 		if ((res = ft_dstrsub(res, 0, c.prec)) == NULL)
 			return (NULL);
-	if (c.field > (len = ft_strlen(res) + (arg->nul > 0 ? 1 : 0)))
+	len = ft_wstrlen((unsigned char*)res);
+	if (c.field > len + (nul_ch > 0 ? 1 : 0))
 		res = ft_padding(c, res, len);
 	return (res);
 }

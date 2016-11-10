@@ -6,7 +6,7 @@
 /*   By: rvan-der <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/11 18:40:47 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/07 16:04:07 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/10 17:06:05 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char		*ft_dstrsub(char *str, size_t start, size_t end)
 		if ((sub = (char*)malloc(sizeof(char) * n + 1)) == NULL)
 			return (NULL);
 		sub = ft_strncpy(sub, str + start, n);
+		sub[n] = '\0';
 	}
 	else
 	{

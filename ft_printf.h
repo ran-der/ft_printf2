@@ -6,13 +6,12 @@
 /*   By: rvan-der <rvan-der@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/09 14:34:41 by rvan-der          #+#    #+#             */
-/*   Updated: 2016/11/08 19:58:40 by rvan-der         ###   ########.fr       */
+/*   Updated: 2016/11/10 16:20:21 by rvan-der         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# include <stdio.h>
 # include "libft/libft.h"
 # include <inttypes.h>
 # include <sys/types.h>
@@ -83,7 +82,7 @@ typedef struct			s_conv
 	int					space;
 }						t_conv;
 
-typedef					char*(*t_cvtfct)(t_conv, va_list);
+typedef char			*(*t_cvtfct)(t_conv, va_list);
 
 typedef struct			s_arg
 {
